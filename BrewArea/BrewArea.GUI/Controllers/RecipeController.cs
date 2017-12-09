@@ -40,9 +40,9 @@ namespace BrewArea.GUI.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(RecipeIndexViewModel rivm, IngredientSelectModel ism, MeasurementTypeSelectModel mtsm, BeerTypeSelectModel btsm)
+        public ActionResult Create(RecipeIndexViewModel rivm)
         {
-            var x = ViewBag.Ingredients;
+            service.CreateRecipe(rivm);
             return RedirectToAction("Index");
         }
     }
