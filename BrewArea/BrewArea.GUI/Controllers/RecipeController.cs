@@ -26,23 +26,75 @@ namespace BrewArea.GUI.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var iServ = new IngredientService();
-            ViewBag.Ingredients = iServ.GetAll();
-            var selectsIng = new List<SelectListItem>();
-            foreach (var ingr in iServ.GetAll().Ingredients)
+            var selectsBT = new List<SelectListItem>();
+            foreach (var beerType in service.GetBeerTypes())
             {
-                selectsIng.Add(new SelectListItem {
-                    Text = ingr.IngredientName,
-                    Value = ingr.IngredientId.ToString()
+                selectsBT.Add(new SelectListItem
+                {
+                    Value = beerType.BeerType1,
+                    Text = beerType.BeerTypeId.ToString()
                 });
             };
-            ViewBag.Ingredients = selectsIng;
+            ViewBag.BeerTypes = selectsBT;
             return View();
         }
         [HttpPost]
-        public ActionResult Create(RecipeIndexViewModel rivm)
+        public ActionResult Create(FormCollection collection)
         {
+            var rivm = new RecipeIndexViewModel
+            {
+                BeerDesc = collection["BeerDesc"],
+                BeerMake = collection["BeerMake"],
+                BeerType = collection["BeerType"],
+                OwnerId = 1,//Degistirilecek
+                OwnerNick = "DeniizBb",
+                RecipeName = collection["RecipeName"]
+            };
+
             service.CreateRecipe(rivm);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            return View(service.GetById(id));
+        }
+        public ActionResult DeleteWithId(int id)
+        {
+            service.Delete(id);
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var selectsBT = new List<SelectListItem>();
+            foreach (var beerType in service.GetBeerTypes())
+            {
+                selectsBT.Add(new SelectListItem
+                {
+                    Value = beerType.BeerType1,
+                    Text = beerType.BeerTypeId.ToString()
+                });
+            };
+            ViewBag.BeerTypes = selectsBT;
+            return View(service.GetById(id));
+        }
+        [HttpPost]
+        public ActionResult Edit(FormCollection collection)
+        {
+            var rivm = new RecipeIndexViewModel
+            {
+                RecipeId = Int32.Parse(collection["RecipeId"]),
+                BeerDesc = collection["BeerDesc"],
+                BeerMake = collection["BeerMake"],
+                BeerType = collection["BeerType"],
+                OwnerId = 1,//Degistirilecek
+                OwnerNick = "DeniizBb",
+                RecipeName = collection["RecipeName"]
+            };
+
+            service.EditRecipe(rivm);
             return RedirectToAction("Index");
         }
     }

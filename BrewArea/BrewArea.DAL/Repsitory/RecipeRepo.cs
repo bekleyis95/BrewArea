@@ -13,7 +13,7 @@ namespace BrewArea.DAL.Repsitory
         {
             using (var ctx = new BrewAreaEntities())
             {
-                var recipeList = ctx.Recipes.ToList();
+                var recipeList = ctx.Recipes.Where(t => t.IsActive).ToList();
                 return recipeList;
             }
         }
@@ -31,6 +31,44 @@ namespace BrewArea.DAL.Repsitory
                 try
                 {
                     ctx.Recipes.Add(newRecipe);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var dbItem = ctx.Recipes.Where(t => t.RecipeId == id).SingleOrDefault();
+                    dbItem.IsActive = false;
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool Edit(Recipe recipe)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var driven = ctx.Recipes.Where(t => t.RecipeId == recipe.RecipeId).SingleOrDefault();
+                    driven.Name = recipe.Name;
+                    driven.Making = recipe.Making;
+                    driven.Description = recipe.Description;
+                    driven.BeerTypeId = recipe.BeerTypeId;
                     ctx.SaveChanges();
                     return true;
                 }

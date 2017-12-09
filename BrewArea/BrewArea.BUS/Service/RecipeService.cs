@@ -64,10 +64,9 @@ namespace BrewArea.BUS.Service
         public bool CreateRecipe(RecipeIndexViewModel newRecipe)
         {
             //PostedBy will come from session
-            //Available BeerTypes will be provided
             //Ingredients will be displayed
             try
-            {
+            {                
                 rp.Create(new Recipe
                 {
                     Description = newRecipe.BeerDesc,
@@ -75,7 +74,7 @@ namespace BrewArea.BUS.Service
                     IsGlobal = true,
                     Making = newRecipe.BeerMake,
                     Name = newRecipe.RecipeName,
-                    BeerTypeId = 1,
+                    BeerTypeId = CheckAndCreateBeerType(newRecipe.BeerType),
                     PostedBy = 1
                 });
                 return true;
@@ -84,6 +83,57 @@ namespace BrewArea.BUS.Service
             {
                 return false;
             }
+        }
+        public bool EditRecipe(RecipeIndexViewModel newRecipe)
+        {
+            //PostedBy will come from session
+            //Ingredients will be displayed
+            try
+            {
+                rp.Edit(new Recipe
+                {
+                    RecipeId = newRecipe.RecipeId,
+                    Description = newRecipe.BeerDesc,
+                    IsActive = true,
+                    IsGlobal = true,
+                    Making = newRecipe.BeerMake,
+                    Name = newRecipe.RecipeName,
+                    BeerTypeId = CheckAndCreateBeerType(newRecipe.BeerType),
+                    PostedBy = 1
+                });
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public bool Delete(int id)
+        {
+            try
+            {
+                return rp.Delete(id);
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+        public List<BeerType> GetBeerTypes()
+        {
+            var othRep = new OthersRepo();
+            return othRep.GetAllBeerTypes();
+        }
+
+        public int CheckAndCreateBeerType(string BeerTypeName)
+        {
+            var othRep = new OthersRepo();
+            var drivenBT = othRep.GetBeerTypeIdtByName(BeerTypeName);
+            if (drivenBT  == null)
+            {
+                return othRep.AddBeerType(BeerTypeName);
+            }
+            return drivenBT.BeerTypeId;
         }
     }
 }

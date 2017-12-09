@@ -195,6 +195,8 @@
     <Content Include="Views\Recipe\Index.cshtml" />
     <Content Include="Views\Recipe\Details.cshtml" />
     <Content Include="Views\Recipe\Create.cshtml" />
+    <Content Include="Views\Recipe\Delete.cshtml" />
+    <Content Include="Views\Recipe\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
