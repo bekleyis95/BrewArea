@@ -97,5 +97,10 @@ namespace BrewArea.GUI.Controllers
             service.EditRecipe(rivm);
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ActionResult AddIngreedient(int id)
+        {
+            return View();
+        }
     }
 }
