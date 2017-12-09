@@ -1,0 +1,11 @@
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\BrewArea.COM.dll.config
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\BrewArea.COM.dll
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\BrewArea.COM.pdb
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\EntityFramework.dll
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\EntityFramework.SqlServer.dll
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\EntityFramework.xml
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\bin\Debug\EntityFramework.SqlServer.xml
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\obj\Debug\BrewArea.COM.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\obj\Debug\BrewArea.COM.dll
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\obj\Debug\BrewArea.COM.pdb
+\\Mac\Home\Desktop\BrewArea\BrewArea\BrewArea.COM\obj\Debug\BrewArea.COM.csprojResolveAssemblyReference.cache

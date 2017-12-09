@@ -1,0 +1,224 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww19400\viewh15220\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Feature: Approving Recipes\
+	The feature can be accessed from Admin Panel Page\
+	Admin has an access to all pending global recipe requests that is posted by registered user.\
+	Admin either can approve or disapprove each global recipe request.\
+	Only logged in admins can see pending global recipe requests.\
+\
+	Scenario: Approving pending global recipe request\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Panel Page,\
+		When I click a pending global recipe request,\
+		And from the recipe information paged opened, I click the \'93Approve\'94 button,\
+		Then pending global recipe is now in shared recipes,\
+		And can be seen by all registered users.\
+\
+	Scenario: Disapproving pending global recipe request\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Panel Page,\
+		When I click a pending global recipe request,\
+		And from the recipe information paged opened, I click the \'93Disapprove\'94 button,\
+		Then pending global recipe is not saved as shared recipes,\
+		And can be seen by only registered user that perform the request.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Feature: Editing Recipes\
+	The feature can be accessed from Admin Main Page\
+	If desired, admin can delete, update a shared recipe by clicking the buttons next to the each list item.\
+	Only logged in admins can see edit, delete shared recipes.\
+\
+	Scenario: Editting a shared recipe\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Edit\'94 button on a list item,\
+		And from the \'93Edit Recipe\'94 paged opened, I edit the content of the recipe by changing ingredients or recipe information,\
+		And when I click the \'93Save\'94 button,\
+		Then selected shared recipe is edited, \
+		And changed recipe now can be seen by all registered users\
+\
+	Scenario: Canceling a edit request\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Edit\'94 button on a list item,\
+		And from the \'93Edit Recipe\'94 paged opened, I click the \'93Back to list\'94 button,\
+		Then page is redirected to Admin Main Page,\
+		Without any change on the selected recipe, it still can be seen as shared recipe \
+	\
+	Scenario: Deleting a shared recipe that is posted by admin \
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Delete\'94 button on a list item,\
+		And from the \'93Delete Recipe\'94 paged opened, I click the \'93Delete\'94 button,\
+		Then selected shared recipe is deleted from database,\
+		And deleted recipe can not be seen by anybody.\
+\
+	Scenario: Deleting a shared recipe that is posted by registered user \
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Delete\'94 button on a list item,\
+		And from the \'93Delete Recipe\'94 paged opened, I click the \'93Delete\'94 button,\
+		Then selected shared recipe is deleted from shared recipes,\
+		And can be seen by only registered user that posted the recipe.\
+\
+	Scenario: Canceling a delete request\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Delete\'94 button on a list item,\
+		And from the \'93Delete Recipe\'94 paged opened, I click the \'93Back to list\'94 button,\
+		Then page is redirected to Admin Main Page,\
+		Without deleting the selected recipe,\
+		And selected recipe still can be seen as shared recipe.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Feature: Adding a new Shared Recipe\
+	The feature can be accessed from Admin Main Page\
+	If desired, admin can add a new shared recipe by clicking the \'93Add New\'94 button above the shared recipe list section.\
+	Only logged in admins can see add a new shared recipe.\
+	Admin users\'92 add recipe request does not have to be approved, added recipes by admins go right into shared list and can be seen by all users\
+\
+	Scenario: Adding a new shared recipe\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Add new\'94 button,\
+		And from the \'93Add Recipe\'94 paged opened, I select ingredients and write the recipe information,\
+		And I click \'93Save\'94 button,\
+		Then page is redirected to Admin Main Page,\
+		And recently added recipe can now be seen by all the users of the platform as shared recipe.\
+\
+	Scenario: Canceling a add shared recipe request,\
+		Given I am admin,\
+		And I have internet connection,\
+		And I have successfully logged in,\
+		And I am Admin Main Page,\
+		When I click \'93Add new\'94 button,\
+		And from the \'93Add Recipe\'94 paged opened, I click the \'93Back to list\'94 button,\
+		Then page is redirected to Admin Main Page,\
+		Addition of new shared recipe is cancelled, \
+		All the changes on the \'93Add Recipe\'94 page are discarded, these changes are gone forever.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Feature: Create and Shared a new Recipe\
+	The feature can be accessed from User Main Page\
+	If desired, registered user can add a new personal recipe by clicking the \'93Add New\'94 button above the shared recipe list,\
+	Registered user can save this new recipe as shared and then the recipe goes to pending shared list request list to wait admin approval\
+	Only logged in users can add new recipe\
+\
+	Scenario: Adding a new personal recipe,\
+		Given I am registered user,\
+		And I have internet connection,	\
+		And I have successfully logged in,\
+		And I am User Main Page,\
+		When I click \'93Add new\'94 button,\
+		And from the \'93Add Recipe\'94 paged opened, I select ingredients and write the recipe information,\
+		And I unchecked \'93Post as shared\'94 check box,\
+		Then page is redirected to User Main Page,\
+		Recently added recipe is not posted to pending shared recipe request list,\
+		But can be viewed from user\'92s personal recipes listt only by the user himself,\
+\
+	Scenario: Adding a new shared recipe,\
+		Given I am registered user,\
+		And I have internet connection,	\
+		And I have successfully logged in,\
+		And I am User Main Page,\
+		When I click \'93Add new\'94 button,\
+		And from the \'93Add Recipe\'94 paged opened, I select ingredients and write the recipe information,\
+		And I checked \'93Post as shared\'94 check box,\
+		Then page is redirected to User Main Page,\
+		Recently added recipe is posted to pending shared recipe request list,\
+		But can be viewed from user\'92s personal recipes list only by the user himself,\
+		If one of the admins approves the shared recipe request, recipe can be viewed by all the users on the platform.\
+\
+	Scenario: Canceling an Add Recipe request,\
+		Given I am registered user,\
+		And I have internet connection,	\
+		And I have successfully logged in,\
+		And I am User Main Page,\
+		When I click \'93Add new\'94 button,\
+		And from the \'93Add Recipe\'94 paged opened, I click the  \'93Back to list\'94 button,\
+		Then page is redirected to User Main Page,\
+		Addition of new shared recipe is cancelled, \
+		All the changes on the \'93Add Recipe\'94 page are discarded, these changes are gone forever.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Feature: Switching between the User Panel page and the Home Page\
+	The feature can be accessed from any paged by logged in user,\
+	Registered user can switch between User Panel Page and User Main Page,\
+	Only logged in users can navigate throw the menu\
+\
+	Scenario: Switching to  User Main Page from User Panel,\
+		Given I am registered user,\
+		And I have internet connection,	\
+		And I have successfully logged in,\
+		And I am in User Panel Page,\
+		When I click to \'93Home Page\'94 button from navigation panel,\
+		Then page is redirected to User Home Page\
+	\
+	Scenario: Switching to User Panel from User Main Page,\
+		Given I am registered user,\
+		And I have internet connection,	\
+		And I have successfully logged in,\
+		And I am in User Home Page,\
+		When I click to \'93User Panel Page\'94 button from navigation panel,\
+		Then page is redirected to User Home Page\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+	\
+\
+		\
+\
+	\
+\
+}

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrewArea.DAL
+namespace BrewArea.DAL.Repository
 {
-    public class Class1
+    class RecipeRepo
     {
     }
 }
