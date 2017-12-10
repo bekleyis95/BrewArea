@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BrewArea.COM.RecipeIndexViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Homa Page";
 }
 
-<h2>Index</h2>
+<h2>Recipes</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,19 +12,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.RecipeName)
+            Recipe Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BeerType)
+            Beer Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BeerDesc)
+            Beer Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BeerMake)
+            Procedure
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OwnerNick)
+            Posted By
         </th>
         <th>
             Ingredients
