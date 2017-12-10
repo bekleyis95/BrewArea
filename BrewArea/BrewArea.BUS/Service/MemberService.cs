@@ -11,13 +11,15 @@ namespace BrewArea.BUS.Service
    public class MemberService
     {
         MemberRepo mrp;
+        IngredientRepo irp;
 
         public MemberService()
         {
             mrp = new MemberRepo();
+            irp = new IngredientRepo();
         }
 
-    public MemberViewModel GetByUsername( string username)
+        public MemberViewModel GetByUsername( string username)
         {
             var user = mrp.GetByUsername(username);
             if (user != null)
@@ -25,7 +27,8 @@ namespace BrewArea.BUS.Service
                 var returnItem = new MemberViewModel
                 {
                     Username = user.Username,
-                    Password = user.Password
+                    Password = user.Password,
+                    MemberType = user.MemberTypeId
                 };
                 return returnItem;
             }
@@ -53,6 +56,15 @@ namespace BrewArea.BUS.Service
             }
       
         }
-    }
 
+        public List<IngredientViewModel> GetAllIngredientsofMember(string username)
+        {
+            //Do validation here
+
+            var memberId = mrp.GetByUsername(username).MemberId;
+
+
+            return irp.GetMemberIngredients(memberId);
+        }
+    }
 }

@@ -59,6 +59,50 @@ namespace BrewArea.DAL.Repsitory
             }
         }
 
+        public List<IngredientViewModel> GetMemberIngredients(int memberId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var ribmList = new List<IngredientViewModel>();
+                var rirList = ctx.IngredientMemberRelations.Where(t => t.MemberId == memberId).ToList();
+                foreach (var rirItem in rirList)
+                {
+                    var ingredientName = ctx.Ingredients.Where(t => t.IngredientId == rirItem.IngredientId).SingleOrDefault().Name;
+                    var measurementType = ctx.MeasurementTypes.Where(t => t.MeasurementTypeId == rirItem.MeasurementTypeId).SingleOrDefault().MeasurementType1;
+                    var amount = rirItem.Amount;
+                    ribmList.Add(new IngredientViewModel
+                    {
+                        Amount = amount,
+                        IngredientName = ingredientName,
+                        MeasurementType = measurementType
+                    });
+                }
+
+                return ribmList;
+            }
+        }
+
+        public IngredientViewModel GetRecipeIngredientById(int recipeId, int ingredientId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var rir = ctx.RecipeIngredientRelations.Where(t => t.IngredientId == ingredientId && t.RecipeId == recipeId).SingleOrDefault();
+                    var othRep = new OthersRepo();
+                    return new IngredientViewModel {
+                        Amount = rir.Amount,
+                        IngredientName = GetById(ingredientId).Name,
+                        MeasurementType = othRep.GetMeasurementType(rir.MeasurementTypeId).MeasurementType1
+                    };
+                }
+                catch(Exception e)
+                {
+                    return null;
+                }
+
+            }
+        }
         public bool Create(Ingredient newIngredient)
         {
             using (var ctx = new BrewAreaEntities())
@@ -99,7 +143,6 @@ namespace BrewArea.DAL.Repsitory
             {
                 try
                 {
-                    var orp = new OthersRepo();
                     ctx.RecipeIngredientRelations.Add(new RecipeIngredientRelation
                     {
                         RecipeId = recipeId,
@@ -114,6 +157,45 @@ namespace BrewArea.DAL.Repsitory
                 {
                     return false;
                 }
+            }
+        }
+        public bool EditIngredientToRecipe(int recipeId, int ingredientIdOld, int ingredientId, int measurementTypeId, double amount)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    DeleteIngredientFromRecipe(recipeId, ingredientIdOld);
+                    AddIngredientToRecipe(recipeId,ingredientId,measurementTypeId,amount);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DeleteIngredientFromRecipe(int recipeId, int ingredientId)
+        {
+            using (var ctx =new BrewAreaEntities())
+            {
+                try
+                {
+                    var toDelete = ctx.RecipeIngredientRelations.Where(t => t.IngredientId == ingredientId && t.RecipeId == recipeId).SingleOrDefault();
+                    if (toDelete != null)
+                    {
+                        ctx.RecipeIngredientRelations.Remove(toDelete);
+                        ctx.SaveChanges();
+
+                    }
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+
             }
         }
     }

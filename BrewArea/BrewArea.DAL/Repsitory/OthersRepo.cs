@@ -45,6 +45,14 @@ namespace BrewArea.DAL.Repsitory
                 return ctx.BeerTypes.Where(t => t.BeerType1 == BeerType).SingleOrDefault();
             }
         }
+        public MeasurementType GetMeasurementType(int measurementTypeId)
+        {
+
+            using (var ctx = new BrewAreaEntities())
+            {
+                return ctx.MeasurementTypes.Where(t => t.MeasurementTypeId == measurementTypeId).SingleOrDefault();
+            }
+        }
         public int AddBeerType(string BeerType)
         {
             using (var ctx = new BrewAreaEntities())

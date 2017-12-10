@@ -11,25 +11,26 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand">BrewArea</a>
+                <a class="navbar-brand" @Html.ActionLink("BrewArea", "Index", "Recipe")</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Recipe")</li>
                 </ul>
                 <ul class="nav navbar-nav" style="float:right">
                     @if (Session["Username"] == null)
-                     {
+                    {
                         <li>@Html.ActionLink("SignUp", "SignUp", "Member")</li>
                         <li>@Html.ActionLink("Login", "Login", "Member")</li>
-                     }
+                    }
                     @if (Session["Username"] != null)
                     {
-                        <li>@Html.ActionLink("Profile", "Index", "Recipe")</li>
+                        <li>@Html.ActionLink("Profile", "Index", "Member")</li>
                         <li>@Html.ActionLink("LogOut", "LogOut", "Member")</li>
                     }
                 </ul>
             </div>
+
         </div>
     </div>
     <div class="container body-content">

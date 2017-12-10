@@ -92,9 +92,8 @@
                         @Html.DisplayFor(modelItem => item.MeasurementType)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "EditIngridient", new { id = Model.RecipeId, ingredient = item }) |
-                        @Html.ActionLink("Delete", "DeletIngridient", new { id = Model.RecipeId, ingredient = item })
-                    </td>
+                        @Html.ActionLink("Edit", "EditIngredient", new { recipeId = Model.RecipeId, ingredient = item.IngredientName }) |
+                        @Html.ActionLink("Delete", "DeleteIngredient", new { recipeId = Model.RecipeId, ingredient = item.IngredientName })
                 </tr>
             }
         </table>

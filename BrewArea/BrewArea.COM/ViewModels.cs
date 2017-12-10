@@ -25,6 +25,7 @@ namespace BrewArea.COM
     public class MemberViewModel {
         public string Username { get; set; }
         public string Password { get; set; }
+        public int MemberType { get; set; }
     }
     public class IngredientViewModel
     {

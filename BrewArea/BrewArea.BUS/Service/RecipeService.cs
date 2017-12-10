@@ -129,7 +129,14 @@ namespace BrewArea.BUS.Service
         {
             return irp.AddIngredientToRecipe(recipeId, CheckAndCreateIngredient(ivm.IngredientName), CheckAndCreateMeasurement(ivm.MeasurementType), ivm.Amount);
         }
-
+        public bool EditIngredientToRecipe(int recipeId, int ingredientIdOld, IngredientViewModel ivm)
+        {
+            return irp.EditIngredientToRecipe(recipeId, ingredientIdOld, CheckAndCreateIngredient(ivm.IngredientName), CheckAndCreateMeasurement(ivm.MeasurementType), ivm.Amount);
+        }
+        public bool DeleteIngredientFromRecipe(int recipeId, int ingredientId)
+        {
+            return irp.DeleteIngredientFromRecipe(recipeId, ingredientId);
+        }
         public int CheckAndCreateBeerType(string BeerTypeName)
         {
             var othRep = new OthersRepo();

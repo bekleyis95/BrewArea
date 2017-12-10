@@ -10,6 +10,7 @@ namespace BrewArea.GUI.Controllers
 {
     public class MemberController : Controller
     {
+        MemberService service = new MemberService();
         // GET: Member
         [HttpGet]
         public ActionResult Login()
@@ -23,7 +24,15 @@ namespace BrewArea.GUI.Controllers
             var user = service.GetByUsername(mvm.Username);
             if (user != null && (user.Password == mvm.Password))
             {
-                Session["Username"] = mvm.Username;
+                if(user.MemberType == 1)
+                {
+                    Session["Admin"] = mvm.Username;
+                }
+                else if(user.MemberType == 3)
+                {
+                    Session["Username"] = mvm.Username;
+
+                }
                 return RedirectToAction("Index", "Recipe");
             }
             return RedirectToAction("Login", "Member");
@@ -56,6 +65,11 @@ namespace BrewArea.GUI.Controllers
             Session.Abandon();
             return RedirectToAction("Index", "Home");
 
+        }
+
+        public ActionResult Index()
+        {
+            return View(service.GetAllIngredientsofMember(Session["Username"].ToString()));
         }
     }
 }

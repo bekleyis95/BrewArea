@@ -2,8 +2,9 @@
     ViewBag.Title = "Home Page";
     if (Session["Username"] == null)
     {
-        Response.Redirect("~/Recipe");
+        Response.Redirect("~/Error/NotFound?str=" + "ANAN");
     }
+}
 }
 <div class="jumbotron">
     <h1>ASP.NET</h1>

@@ -18,5 +18,20 @@ namespace BrewArea.BUS.Service
 
 
         }
+        public IngredientViewModel GetRecipeIngredientById(int recipeId, int ingredientId)
+        {
+            var ingRepo = new IngredientRepo();
+            return ingRepo.GetRecipeIngredientById(recipeId,ingredientId);
+        }
+        public int GetByName(string ingredient)
+        {
+            var ingRepo = new IngredientRepo();
+            var ing =  ingRepo.GetByName(ingredient);
+            if(ing == null)
+            {
+                return -1;
+            }
+            return ing.IngredientId;
+        }
     }
 }
