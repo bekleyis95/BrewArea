@@ -125,15 +125,40 @@ namespace BrewArea.BUS.Service
             return othRep.GetAllBeerTypes();
         }
 
+        public bool AddIngredientToRecipe(int recipeId, IngredientViewModel ivm)
+        {
+            return irp.AddIngredientToRecipe(recipeId, CheckAndCreateIngredient(ivm.IngredientName), CheckAndCreateMeasurement(ivm.MeasurementType), ivm.Amount);
+        }
+
         public int CheckAndCreateBeerType(string BeerTypeName)
         {
             var othRep = new OthersRepo();
-            var drivenBT = othRep.GetBeerTypeIdtByName(BeerTypeName);
+            var drivenBT = othRep.GetBeerTypetByName(BeerTypeName);
             if (drivenBT  == null)
             {
                 return othRep.AddBeerType(BeerTypeName);
             }
             return drivenBT.BeerTypeId;
+        }
+        public int CheckAndCreateMeasurement(string MeasurementName)
+        {
+            var othRep = new OthersRepo();
+            var drivenM = othRep.GetMeasurementByName(MeasurementName);
+            if (drivenM ==null)
+            {
+                return othRep.AddMeasurement(MeasurementName);
+            }
+            return drivenM.MeasurementTypeId;
+        }
+        public int CheckAndCreateIngredient(string IngredientName)
+        {
+            var ingRep = new IngredientRepo();
+            var drivenI = ingRep.GetByName(IngredientName);
+            if (drivenI == null)
+            {
+                return ingRep.CreateByName(IngredientName);
+            }
+            return drivenI.IngredientId;
         }
     }
 }

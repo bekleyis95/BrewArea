@@ -26,11 +26,11 @@ namespace BrewArea.DAL.Repsitory
 
         }
 
-        public int GetByName(string ingredientName)
+        public Ingredient GetByName(string ingredientName)
         {
             using (var ctx = new BrewAreaEntities())
             {
-                return ctx.Ingredients.Where(t => t.Name == ingredientName).SingleOrDefault().IngredientId;
+                return ctx.Ingredients.Where(t => t.Name == ingredientName).SingleOrDefault();
             }
 
 
@@ -75,7 +75,25 @@ namespace BrewArea.DAL.Repsitory
                 }
             }
         }
-        public bool AddIngredientToRecipe(int recipeId, IngredientViewModel ribm)
+        public int CreateByName(string IngredientName)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var x = ctx.Ingredients.Add(new Ingredient {
+                        Name = IngredientName
+                    });
+                    ctx.SaveChanges();
+                    return x.IngredientId;
+                }
+                catch (Exception e)
+                {
+                    return -1;
+                }
+            }
+        }
+        public bool AddIngredientToRecipe(int recipeId, int ingredientId, int measurementTypeId, double amount)
         {
             using (var ctx = new BrewAreaEntities())
             {
@@ -85,9 +103,9 @@ namespace BrewArea.DAL.Repsitory
                     ctx.RecipeIngredientRelations.Add(new RecipeIngredientRelation
                     {
                         RecipeId = recipeId,
-                        IngredientId = GetByName(ribm.IngredientName),
-                        MeasurementTypeId = orp.GetMeasurementIdtByName(ribm.IngredientName),
-                        Amount = ribm.Amount
+                        IngredientId = ingredientId,
+                        MeasurementTypeId = measurementTypeId,
+                        Amount = amount
                     });
                     ctx.SaveChanges();
                     return true;

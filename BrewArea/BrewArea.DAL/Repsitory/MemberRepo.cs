@@ -17,5 +17,29 @@ namespace BrewArea.DAL.Repsitory
                 return ctx.Members.ToList().SingleOrDefault(t => t.MemberId == id);
             }
         }
+        public Member GetByUsername(string username)
+        {
+            using(var ctx = new BrewAreaEntities())
+            {
+                return ctx.Members.Where(t => t.Username == username).SingleOrDefault();
+            }
+        }
+
+        public bool Create(Member member)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    ctx.Members.Add(member);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

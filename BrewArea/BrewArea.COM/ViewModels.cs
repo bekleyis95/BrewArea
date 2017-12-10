@@ -22,6 +22,10 @@ namespace BrewArea.COM
             Ingredients.Add(ribm);
         }
     }
+    public class MemberViewModel {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
     public class IngredientViewModel
     {
         public double Amount { get; set; }

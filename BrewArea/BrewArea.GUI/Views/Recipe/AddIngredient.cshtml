@@ -1,0 +1,89 @@
+﻿@model BrewArea.COM.IngredientViewModel
+
+@{
+    ViewBag.Title = "AddIngreedient";
+}
+
+<h2>AddIngreedient</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>IngredientViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input type="hidden" name="Id" value="@ViewBag.Id">
+        <div class="form-group">
+            @Html.LabelFor(model => model.IngredientName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.8/css/bootstrap-combobox.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.8/js/bootstrap-combobox.min.js"></script>
+
+                <input type="text" id="IngredientId" name="IngredientName" list="ingredientList" autocomplete="off" class="form-control">
+                <datalist id="ingredientList">
+                    @foreach (var item in ViewBag.Ingredients)
+                    {
+                        <option value="@item.Value"> @item.Value</option>
+                    }
+                </datalist>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MeasurementType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.8/css/bootstrap-combobox.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.8/js/bootstrap-combobox.min.js"></script>
+
+                <input type="text" id="MeasurementId" name="MeasurementName" list="measurementList" autocomplete="off" class="form-control">
+                <datalist id="measurementList">
+                    @foreach (var item in ViewBag.Measurements)
+                    {
+                        <option value="@item.Value"> @item.Value</option>
+                    }
+                </datalist>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" name="To"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save and Add Another" class="btn btn-default" name="To" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('.combobox').combobox();
+
+            $('.combobox').combobox({ bsVersion: '2' });
+            // bonus: add a placeholder
+            $('.combobox').attr('placeholder', 'For example, start typing "Pennsylvania"');
+        });
+    </script>
+}

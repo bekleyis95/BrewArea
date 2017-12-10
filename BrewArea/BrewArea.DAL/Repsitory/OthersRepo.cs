@@ -30,15 +30,15 @@ namespace BrewArea.DAL.Repsitory
                 return ctx.MeasurementTypes.ToList();
             }
 
-        }
-        public int GetMeasurementIdtByName(string measurementType)
+        }  
+        public MeasurementType GetMeasurementByName(string measurementType)
         {
             using (var ctx = new BrewAreaEntities())
             {
-                return ctx.MeasurementTypes.Where(t => t.MeasurementType1 == measurementType).SingleOrDefault().MeasurementTypeId;
+                return ctx.MeasurementTypes.Where(t => t.MeasurementType1 == measurementType).SingleOrDefault();
             }
         }
-        public BeerType GetBeerTypeIdtByName(string BeerType)
+        public BeerType GetBeerTypetByName(string BeerType)
         {
             using (var ctx = new BrewAreaEntities())
             {
@@ -47,7 +47,8 @@ namespace BrewArea.DAL.Repsitory
         }
         public int AddBeerType(string BeerType)
         {
-            using (var ctx = new BrewAreaEntities()) {
+            using (var ctx = new BrewAreaEntities())
+            {
                 try
                 {
                     var x = ctx.BeerTypes.Add(new BeerType
@@ -57,7 +58,27 @@ namespace BrewArea.DAL.Repsitory
                     ctx.SaveChanges();
                     return x.BeerTypeId;
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
+                    return -1;
+                }
+            }
+        }
+        public int AddMeasurement(string MeasurementType)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var x = ctx.MeasurementTypes.Add(new MeasurementType
+                    {
+                        MeasurementType1 = MeasurementType
+                    });
+                    ctx.SaveChanges();
+                    return x.MeasurementTypeId;
+                }
+                catch (Exception e)
+                {
                     return -1;
                 }
             }

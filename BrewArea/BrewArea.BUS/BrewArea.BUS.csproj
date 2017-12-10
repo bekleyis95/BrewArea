@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IngredientService.cs" />
+    <Compile Include="Service\MemberService.cs" />
     <Compile Include="Service\RecipeService.cs" />
   </ItemGroup>
   <ItemGroup>
