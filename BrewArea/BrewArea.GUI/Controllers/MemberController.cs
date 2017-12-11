@@ -11,6 +11,7 @@ namespace BrewArea.GUI.Controllers
     public class MemberController : Controller
     {
         MemberService service = new MemberService();
+        RecipeService recipeService = new RecipeService();
         // GET: Member
         [HttpGet]
         public ActionResult Login()
@@ -70,17 +71,18 @@ namespace BrewArea.GUI.Controllers
         public ActionResult Index()
         {
             int memberId;
-          
             
             if (Session["Username"] != null)
             {
-                ViewBag.Id = service.GetByUsername(Session["Username"].ToString()).MemberId;
+                ViewBag.User = service.GetByUsername(Session["Username"].ToString());
+                ViewBag.PersonalRecipes = recipeService.GetAllOfUser(ViewBag.User.MemberId);
                 return View(service.GetAllIngredientsofMember(Session["Username"].ToString()));
 
             }
             else if(Session["Admin"] != null)
             {
-                ViewBag.Id = service.GetByUsername(Session["Admin"].ToString()).MemberId;
+                ViewBag.User = service.GetByUsername(Session["Admin"].ToString());
+                ViewBag.PendingRecipes = recipeService.GetAllPendingForAdmin();
                 return View(service.GetAllIngredientsofMember(Session["Admin"].ToString()));
 
             }

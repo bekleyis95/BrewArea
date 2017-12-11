@@ -31,7 +31,18 @@ namespace BrewArea.GUI.Controllers
         // GET: Recipe/Id
         public ActionResult Details(int id)
         {
+            ViewBag.IsPending = false;
+            if (!service.IsGlobal(id) && Session["Admin"] != null)
+            {
+                ViewBag.IsPending = true;
+            }
             return View(service.GetById(id));
+        }
+
+        public ActionResult MakeGlobal(int id)
+        {
+            service.MakeGlobal(id);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

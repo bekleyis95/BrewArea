@@ -43,6 +43,35 @@ namespace BrewArea.BUS.Service
             }
             return vmList;
         }
+        public List<RecipeIndexViewModel> GetAllPendingForAdmin()
+        {
+            //Do validation here
+            var list = rp.GetAllPending();
+            List<RecipeIndexViewModel> vmList = new List<RecipeIndexViewModel>();
+
+            foreach (var item in list)
+            {
+                vmList.Add(new RecipeIndexViewModel
+                {
+                    RecipeId = item.RecipeId,
+                    RecipeName = item.Name,
+                    BeerDesc = item.Description,
+                    BeerMake = item.Making,
+                    BeerType = orp.GetBeerType(item.BeerTypeId).BeerType1,
+                    OwnerNick = mrp.GetById(item.PostedBy).Username,
+                    Ingredients = irp.GetRecipeIngredients(item.RecipeId)
+                });
+            }
+            return vmList;
+        }
+        public bool IsGlobal(int recipeId)
+        {
+            return rp.GetById(recipeId).IsGlobal;
+        }
+        public bool MakeGlobal(int recipeId)
+        {
+            return rp.MakeGlobal(recipeId);
+        }
         public List<RecipeIndexViewModel> GetAllForNonUser()
         {
             //Do validation here
@@ -85,6 +114,28 @@ namespace BrewArea.BUS.Service
             }
             return vmList;
         }
+        public List<RecipeIndexViewModel> GetAllOfUser(int memberId)
+        {
+            //Do validation here
+            var list = rp.GetAllRecipesOfMember(memberId);
+            List<RecipeIndexViewModel> vmList = new List<RecipeIndexViewModel>();
+
+            foreach (var item in list)
+            {
+                vmList.Add(new RecipeIndexViewModel
+                {
+                    RecipeId = item.RecipeId,
+                    RecipeName = item.Name,
+                    BeerDesc = item.Description,
+                    BeerMake = item.Making,
+                    BeerType = orp.GetBeerType(item.BeerTypeId).BeerType1,
+                    OwnerNick = mrp.GetById(item.PostedBy).Username,
+                    Ingredients = irp.GetRecipeIngredients(item.RecipeId)
+                });
+            }
+            return vmList;
+        }
+
 
         public RecipeIndexViewModel GetById(int recipeId)
         {

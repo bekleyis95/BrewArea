@@ -6,25 +6,156 @@
 
 <h2>Profile</h2>
 
+@if (Session["Username"] != null)
+{
+    <h3>Personal Recipes</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Recipe Name
+            </th>
+            <th>
+                Beer Type
+            </th>
+            <th>
+                Beer Description
+            </th>
+            <th>
+                Procedure
+            </th>
+            <th>
+                Ingredients
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.PersonalRecipes)
+        {
+            <tr>
+                <td>
+                    @item.RecipeName
+                </td>
+                <td>
+                    @item.BeerType
+                </td>
+                <td>
+                    @item.BeerDesc
+                </td>
+                <td>
+                    @item.BeerMake
+                </td>
+                <td>
+                    @if (item.Ingredients.Count < 5)
+                    {
+                        for (int i = 0; i < item.Ingredients.Count; i++)
+                        {
+                            @item.Ingredients[i].IngredientName
+                            <br>
+                        }
+                    }
+                    @if (item.Ingredients.Count >= 5)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+
+                            @item.Ingredients[i].IngredientName
+                            <br>
+                        }
+                    }
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Recipe", new { id = item.RecipeId }, null) |
+                    @Html.ActionLink("Details", "Details", "Recipe", new { id = item.RecipeId }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Recipe", new { id = item.RecipeId }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+}
+
+@if (Session["Admin"] != null)
+{
+    <h3>Pending Recipes</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Recipe Name
+            </th>
+            <th>
+                Beer Type
+            </th>
+            <th>
+                Beer Description
+            </th>
+            <th>
+                Procedure
+            </th>
+            <th>
+                Ingredients
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.PendingRecipes)
+        {
+            <tr>
+                <td>
+                    @item.RecipeName
+                </td>
+                <td>
+                    @item.BeerType
+                </td>
+                <td>
+                    @item.BeerDesc
+                </td>
+                <td>
+                    @item.BeerMake
+                </td>
+                <td>
+                    @if (item.Ingredients.Count < 5)
+                    {
+                        for (int i = 0; i < item.Ingredients.Count; i++)
+                        {
+                            @item.Ingredients[i].IngredientName
+                            <br>
+                        }
+                    }
+                    @if (item.Ingredients.Count >= 5)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+
+                            @item.Ingredients[i].IngredientName
+                            <br>
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Recipe", new { id = item.RecipeId }, null) |
+                    @Html.ActionLink("Details", "Details", "Recipe", new { id = item.RecipeId }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Recipe", new { id = item.RecipeId }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+
 <p>
     @if (Session["Username"] != null)
     {
-        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.Id })
+        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.User.MemberId })
     }
     @if (Session["Admin"] != null)
     {
-        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.Id })
+        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.User.MemberId })
     }
 </p>
-<h3>
 
-</h3>
-@if (Session["Username"] != null)
-{
-}
-@if (Session["Admin"] != null)
-{
-}
 <table class="table">
     <tr>
         <th>
@@ -38,6 +169,8 @@
         </th>
         <th></th>
     </tr>
+
+
 
 @foreach (var item in Model) {
     <tr>

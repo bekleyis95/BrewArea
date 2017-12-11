@@ -82,5 +82,10 @@
 </table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.RecipeId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+
+    @if (ViewBag.IsPending)
+    {        
+        @Html.ActionLink("Make Global", "MakeGlobal", new { id = Model.RecipeId }) 
+    }
 </p>

@@ -123,6 +123,7 @@ namespace BrewArea.DAL.Repsitory
                 if (recipe !=null )
                 {
                     recipe.IsGlobal = true;
+                    ctx.SaveChanges();
                     return true;
                 }
                 return false;

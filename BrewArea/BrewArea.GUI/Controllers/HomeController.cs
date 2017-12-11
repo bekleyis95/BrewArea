@@ -10,7 +10,7 @@ namespace BrewArea.GUI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index","Recipe");
         }       
     }
 }
