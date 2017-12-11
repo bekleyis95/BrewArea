@@ -69,9 +69,18 @@
             }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.RecipeId }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.RecipeId }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.RecipeId })
+            @if (Session["Admin"] != null || (Session["Username"]!= null && item.OwnerId.ToString() == Session["Username"].ToString()))
+            {
+
+                @Html.ActionLink("Edit", "Edit", new { id = item.RecipeId })  
+                
+                <br>
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.RecipeId })
+
+                <br>
+            }
+            @Html.ActionLink("Details", "Details", new { id = item.RecipeId })
         </td>
     </tr>
 }

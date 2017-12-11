@@ -45,6 +45,21 @@ namespace BrewArea.GUI.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult FeelingLucky(int memberId)
+        {
+            var fl = service.FeelingLucky(memberId);
+            if (fl != -1)
+            {
+                return RedirectToAction("Details", new { id = fl });
+            }
+            else
+            {
+                return RedirectToAction("Error", "NotFound", new {str = "No matching recipes" });
+            }
+            
+        }
+
         [HttpGet]
         public ActionResult Create()
         {

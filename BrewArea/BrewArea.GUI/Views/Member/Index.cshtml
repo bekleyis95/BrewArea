@@ -6,6 +6,8 @@
 
 <h2>Profile</h2>
 
+@Html.ActionLink("Get me a recipe", "FeelingLucky", "Recipe", new { memberId = ViewBag.User.MemberId }, null)
+
 @if (Session["Username"] != null)
 {
     <h3>Personal Recipes</h3>

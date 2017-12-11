@@ -260,5 +260,29 @@ namespace BrewArea.BUS.Service
             }
             return drivenI.IngredientId;
         }
+        public int FeelingLucky(int memberId)
+        {
+            var globalRecipes = GetAllForUser(memberId);
+            var memIngredients = irp.GetMemberIngredients(memberId);
+            foreach(var item in globalRecipes)
+            {
+                bool isOk = true;
+                foreach(var ingredient in item.Ingredients)
+                {
+                    var matchingIngredient = memIngredients.Where(t => t.IngredientName == ingredient.IngredientName).SingleOrDefault();
+                    if (matchingIngredient == null)
+                    {
+                        isOk = false;
+                        break;
+                    }
+                    
+                }
+                if (isOk)
+                {
+                    return item.RecipeId;
+                }
+            }
+            return -1;
+        }
     }
 }
