@@ -16,7 +16,7 @@ namespace BrewArea.COM
         public string OwnerNick { get; set; }
         public string BeerMake { get; set; }
         public List<IngredientViewModel> Ingredients { get; set; }
-        
+
         public void AddIngredient(IngredientViewModel ribm)
         {
             Ingredients.Add(ribm);
@@ -26,6 +26,7 @@ namespace BrewArea.COM
         public string Username { get; set; }
         public string Password { get; set; }
         public int MemberType { get; set; }
+        public int? MemberId { get; set; }
     }
     public class IngredientViewModel
     {

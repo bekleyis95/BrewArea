@@ -14,7 +14,18 @@ namespace BrewArea.GUI.Controllers
         // GET: Recipe
         public ActionResult Index()
         {
-            return View(service.GetAll());
+            if (Session["Username"] != null)
+            {
+                return View(service.GetAllForUser(memberService.GetByUsername(Session["Username"].ToString()).MemberId.GetValueOrDefault()));
+            }
+            else if (Session["Admin"] != null)
+            {
+                return View(service.GetAllForAdmin());
+            }
+            else
+            {
+                return View(service.GetAllForNonUser());
+            }
         }
 
         // GET: Recipe/Id
@@ -41,7 +52,7 @@ namespace BrewArea.GUI.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-
+            int ret = -1;
             var memSrv = new MemberService();
             if(Session["Username"] != null)
             {
@@ -50,11 +61,11 @@ namespace BrewArea.GUI.Controllers
                     BeerDesc = collection["BeerDesc"],
                     BeerMake = collection["BeerMake"],
                     BeerType = collection["BeerType"],
-                    OwnerId = memberService.GetByUsername(Session["Username"].ToString()).MemberType,
+                    OwnerId = memberService.GetByUsername(Session["Username"].ToString()).MemberId.GetValueOrDefault(),
                     OwnerNick = Session["Username"].ToString(),
                     RecipeName = collection["RecipeName"]
                 };
-                service.CreateRecipe(rivm);
+                ret = service.CreateRecipe(rivm,false);
             }
             else if(Session["Admin"] != null)
             {
@@ -63,15 +74,22 @@ namespace BrewArea.GUI.Controllers
                     BeerDesc = collection["BeerDesc"],
                     BeerMake = collection["BeerMake"],
                     BeerType = collection["BeerType"],
-                    OwnerId = memberService.GetByUsername(Session["Admin"].ToString()).MemberType,
+                    OwnerId = memberService.GetByUsername(Session["Admin"].ToString()).MemberId.GetValueOrDefault(),
                     OwnerNick = Session["Admin"].ToString(),
                     RecipeName = collection["RecipeName"]
                 };
-                service.CreateRecipe(rivm);
+                ret = service.CreateRecipe(rivm, true);
             }
 
+            if(collection["To"] == "Create" || ret == -1) // error sayfasına döndür
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("AddIngredient",new {id = ret });
+            }
 
-            return RedirectToAction("Index");
         }
 
         [HttpGet]

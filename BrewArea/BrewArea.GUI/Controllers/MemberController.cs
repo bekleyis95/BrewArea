@@ -69,7 +69,81 @@ namespace BrewArea.GUI.Controllers
 
         public ActionResult Index()
         {
-            return View(service.GetAllIngredientsofMember(Session["Username"].ToString()));
+            int memberId;
+          
+            
+            if (Session["Username"] != null)
+            {
+                ViewBag.Id = service.GetByUsername(Session["Username"].ToString()).MemberId;
+                return View(service.GetAllIngredientsofMember(Session["Username"].ToString()));
+
+            }
+            else if(Session["Admin"] != null)
+            {
+                ViewBag.Id = service.GetByUsername(Session["Admin"].ToString()).MemberId;
+                return View(service.GetAllIngredientsofMember(Session["Admin"].ToString()));
+
+            }
+            else
+            {
+                return RedirectToAction("Error","NotFound", new { str = "Yalniz hata"});
+            }
         }
+
+        [HttpGet]
+        public ActionResult AddIngredient(int id)
+        {
+            var ingServ = new IngredientService();
+            var base_ = ingServ.GetAll();
+            var ingredients = base_.Ingredients;
+            var measurements = base_.Measurements;
+            var selectIng = new List<SelectListItem>();
+            var selectMea = new List<SelectListItem>();
+            foreach (var ing in ingredients)
+            {
+                selectIng.Add(new SelectListItem
+                {
+                    Value = ing.IngredientName,
+                    Text = ing.IngredientId.ToString()
+                });
+            }
+            foreach (var mea in measurements)
+            {
+                selectMea.Add(new SelectListItem
+                {
+                    Value = mea.MeasurementTypeName,
+                    Text = mea.MeasurementTypeId.ToString()
+                });
+            }
+            ViewBag.Ingredients = selectIng;
+            ViewBag.Measurements = selectMea;
+            ViewBag.Id = id;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddIngredient(FormCollection collection)
+        {
+            var toPage = collection["To"].ToString();
+            if (service.AddIngredientToMember(Int32.Parse(collection["Id"]), new IngredientViewModel
+            {
+                Amount = Double.Parse(collection["Amount"]),
+                IngredientName = collection["IngredientName"],
+                MeasurementType = collection["MeasurementName"]
+            }))
+            {
+                if (toPage == "Save")
+                {
+
+                }
+                else
+                {
+
+                    return RedirectToAction("AddIngredient", new { id = collection["Id"] });
+
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

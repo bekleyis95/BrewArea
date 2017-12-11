@@ -4,11 +4,27 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Profile</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (Session["Username"] != null)
+    {
+        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.Id })
+    }
+    @if (Session["Admin"] != null)
+    {
+        @Html.ActionLink("Create New", "AddIngredient", new { id = ViewBag.Id })
+    }
 </p>
+<h3>
+
+</h3>
+@if (Session["Username"] != null)
+{
+}
+@if (Session["Admin"] != null)
+{
+}
 <table class="table">
     <tr>
         <th>
@@ -36,7 +52,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>

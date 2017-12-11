@@ -166,7 +166,7 @@ namespace BrewArea.DAL.Repsitory
                 try
                 {
                     DeleteIngredientFromRecipe(recipeId, ingredientIdOld);
-                    AddIngredientToRecipe(recipeId,ingredientId,measurementTypeId,amount);
+                    AddIngredientToRecipe(recipeId, ingredientId, measurementTypeId, amount);
                     ctx.SaveChanges();
                     return true;
                 }
@@ -178,7 +178,7 @@ namespace BrewArea.DAL.Repsitory
         }
         public bool DeleteIngredientFromRecipe(int recipeId, int ingredientId)
         {
-            using (var ctx =new BrewAreaEntities())
+            using (var ctx = new BrewAreaEntities())
             {
                 try
                 {
@@ -186,6 +186,67 @@ namespace BrewArea.DAL.Repsitory
                     if (toDelete != null)
                     {
                         ctx.RecipeIngredientRelations.Remove(toDelete);
+                        ctx.SaveChanges();
+
+                    }
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+
+            }
+        }
+        public bool AddIngredientToMember(int memberId, int ingredientId, int measurementTypeId, double amount)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    ctx.IngredientMemberRelations.Add(new IngredientMemberRelation
+                    {
+                        MemberId= memberId,
+                        IngredientId = ingredientId,
+                        MeasurementTypeId = measurementTypeId,
+                        Amount = amount
+                    });
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool EditIngredientToMember(int memberId, int ingredientIdOld, int ingredientId, int measurementTypeId, double amount)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    DeleteIngredientFromMember(memberId, ingredientIdOld);
+                    AddIngredientToMember(memberId, ingredientId, measurementTypeId, amount);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DeleteIngredientFromMember(int memberId, int ingredientId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                try
+                {
+                    var toDelete = ctx.IngredientMemberRelations.Where(t => t.IngredientId == ingredientId && t.MemberId == memberId).SingleOrDefault();
+                    if (toDelete != null)
+                    {
+                        ctx.IngredientMemberRelations.Remove(toDelete);
                         ctx.SaveChanges();
 
                     }

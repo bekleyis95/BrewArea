@@ -9,7 +9,8 @@ namespace BrewArea.DAL.Repsitory
 {
     public class RecipeRepo
     {
-        public List<Recipe> GetAll()
+
+        public List<Recipe> GetAllForAdmin()
         {
             using (var ctx = new BrewAreaEntities())
             {
@@ -17,6 +18,41 @@ namespace BrewArea.DAL.Repsitory
                 return recipeList;
             }
         }
+        public List<Recipe> GetAllForNonUser()
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var recipeList = ctx.Recipes.Where(t => t.IsActive && t.IsGlobal).ToList();
+                return recipeList;
+            }
+        }
+        public List<Recipe> GetAllForMember(int memberId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var recipeList = ctx.Recipes.Where(t => t.IsActive && (t.IsGlobal || t.PostedBy == memberId)).ToList();
+                return recipeList;
+            }
+        }
+        public List<Recipe> GetAllPending()
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var recipeList = ctx.Recipes.Where(t => t.IsActive && !t.IsGlobal).ToList();
+                return recipeList;
+            }
+        }
+        public List<Recipe> GetAllRecipesOfMember(int memberId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var recipeList = ctx.Recipes.Where(t => t.IsActive && t.PostedBy == memberId).ToList();
+                return recipeList;
+            }
+        }
+
+
+
         public Recipe GetById(int recipeId)
         {
             using (var ctx = new BrewAreaEntities())
@@ -24,23 +60,24 @@ namespace BrewArea.DAL.Repsitory
                 return ctx.Recipes.Where(t => t.RecipeId == recipeId).SingleOrDefault();
             }
         }
-        public bool Create(Recipe newRecipe)
+
+
+        public int Create(Recipe newRecipe)
         {
             using (var ctx = new BrewAreaEntities())
             {
                 try
                 {
-                    ctx.Recipes.Add(newRecipe);
+                    var newRec = ctx.Recipes.Add(newRecipe);
                     ctx.SaveChanges();
-                    return true;
+                    return newRec.RecipeId;
                 }
                 catch (Exception e)
                 {
-                    return false;
+                    return -1;
                 }
             }
         }
-
         public bool Delete(int id)
         {
             using (var ctx = new BrewAreaEntities())
@@ -78,5 +115,34 @@ namespace BrewArea.DAL.Repsitory
                 }
             }
         }
+        public bool MakeGlobal(int recipeId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                var recipe = ctx.Recipes.Where(t => t.RecipeId == recipeId).SingleOrDefault();
+                if (recipe !=null )
+                {
+                    recipe.IsGlobal = true;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public int GetRecipeCountForMember(int memberId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                return ctx.Recipes.Where(t => t.PostedBy == memberId && t.IsActive).Count();
+            }
+        }
+        public int GetGlobalRecipeCountForMember(int memberId)
+        {
+            using (var ctx = new BrewAreaEntities())
+            {
+                return ctx.Recipes.Where(t => t.PostedBy == memberId && t.IsActive && t.IsGlobal).Count();
+            }
+        }
+
     }
 }

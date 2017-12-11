@@ -22,10 +22,10 @@ namespace BrewArea.BUS.Service
             orp = new OthersRepo();
         }
 
-        public List<RecipeIndexViewModel> GetAll()
+        public List<RecipeIndexViewModel> GetAllForAdmin()
         {
             //Do validation here
-            var list = rp.GetAll();
+            var list = rp.GetAllForAdmin();
             List<RecipeIndexViewModel> vmList = new List<RecipeIndexViewModel>();
 
             foreach (var item in list)
@@ -43,6 +43,49 @@ namespace BrewArea.BUS.Service
             }
             return vmList;
         }
+        public List<RecipeIndexViewModel> GetAllForNonUser()
+        {
+            //Do validation here
+            var list = rp.GetAllForNonUser();
+            List<RecipeIndexViewModel> vmList = new List<RecipeIndexViewModel>();
+
+            foreach (var item in list)
+            {
+                vmList.Add(new RecipeIndexViewModel
+                {
+                    RecipeId = item.RecipeId,
+                    RecipeName = item.Name,
+                    BeerDesc = item.Description,
+                    BeerMake = item.Making,
+                    BeerType = orp.GetBeerType(item.BeerTypeId).BeerType1,
+                    OwnerNick = mrp.GetById(item.PostedBy).Username,
+                    Ingredients = irp.GetRecipeIngredients(item.RecipeId)
+                });
+            }
+            return vmList;
+        }
+        public List<RecipeIndexViewModel> GetAllForUser(int memberId)
+        {
+            //Do validation here
+            var list = rp.GetAllForMember(memberId);
+            List<RecipeIndexViewModel> vmList = new List<RecipeIndexViewModel>();
+
+            foreach (var item in list)
+            {
+                vmList.Add(new RecipeIndexViewModel
+                {
+                    RecipeId = item.RecipeId,
+                    RecipeName = item.Name,
+                    BeerDesc = item.Description,
+                    BeerMake = item.Making,
+                    BeerType = orp.GetBeerType(item.BeerTypeId).BeerType1,
+                    OwnerNick = mrp.GetById(item.PostedBy).Username,
+                    Ingredients = irp.GetRecipeIngredients(item.RecipeId)
+                });
+            }
+            return vmList;
+        }
+
         public RecipeIndexViewModel GetById(int recipeId)
         {
             //Do validation here
@@ -61,27 +104,26 @@ namespace BrewArea.BUS.Service
 
             return returnItem;
         }
-        public bool CreateRecipe(RecipeIndexViewModel newRecipe)
+        public int CreateRecipe(RecipeIndexViewModel newRecipe, bool isGlobal)
         {
             //PostedBy will come from session
             //Ingredients will be displayed
             try
             {                
-                rp.Create(new Recipe
+              return  rp.Create(new Recipe
                 {
                     Description = newRecipe.BeerDesc,
                     IsActive = true,
-                    IsGlobal = true,
+                    IsGlobal = isGlobal,
                     Making = newRecipe.BeerMake,
                     Name = newRecipe.RecipeName,
                     BeerTypeId = CheckAndCreateBeerType(newRecipe.BeerType),
-                    PostedBy = 1
+                    PostedBy = newRecipe.OwnerId
                 });
-                return true;
              }
             catch(Exception e)
             {
-                return false;
+                return -1;
             }
         }
         public bool EditRecipe(RecipeIndexViewModel newRecipe)
